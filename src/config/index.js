@@ -1,7 +1,21 @@
-require('dotenv').config();
+
+
+const path = require('path');
+require('dotenv').config({path:path.join(__dirname+'./../../.env')});
+console.log(process.env.DATABASE_DIALECT || 'Sample from .env does not work, check .env path')
+
+let db_path = path.join(__dirname+ "/../../db/", 'db.sqlite')
+console.log("Database path:",db_path)
 
 const config = {
-    DBSOURCE = "db/db.sqlite",
-    PORT = 5555
+    PORT: 5555,
+    jwtSecret: process.env.JWT_SECRET,
+
+    //env variables
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME || null,
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || null,
+    DATABASE: process.env.DATABASE || 'db.sqlite',
+    DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'sqlite',
+    DATABASE_STORAGE: process.env.DATABASE_STORAGE || db_path,
 }
-module.export = config
+module.exports = config
