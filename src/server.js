@@ -1,11 +1,10 @@
 'user strict';
 
 const express = require('express'),
-    // OPTIONAL:Logging
-    //bodyParser = require('body-parser'),
     //morgan = require('morgan'),
     config = require('./config'),
     router = require('./router'),
+    bodyParser = require('body-parser'),
     db = require('./orm');
     
 const app = express()
@@ -20,10 +19,14 @@ console.log(config)
 //     next();
 //   });
 
+//app.use(mrogan('combined'));
+app.use(bodyParser.json());
 router(app, db);
 
+console.log(db)
+
 //OPTIONAL: Activate Logging
-// app.use(mrogan('combined'));
+
 
 //drop and resync with { force: true }
 db.sequelize.sync().then(() => {

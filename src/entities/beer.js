@@ -26,6 +26,7 @@ module.exports = (sequalize, DataTypes) =>{
         },
         created_at: {
             type: DataTypes.DATE,
+            defaultValue: sequalize.fn('NOW'),
             allowNull: false
           },
           updated_at: DataTypes.DATE,

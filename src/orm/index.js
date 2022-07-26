@@ -1,6 +1,7 @@
 'use strict'
 
 const Sequelize = require('sequelize');
+//import models from './../entities/models'
 const path = require('path')
 const fs = require('fs');
 
@@ -16,25 +17,25 @@ const sequelize = new Sequelize(env.DATABASE, env.DATABASE_USERNAME, env.DATABAS
 
 
 const db ={};
-fs
-  .readdirSync(path.join(__dirname+"/../entities"))
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname+"/../entities", file));(sequelize,Sequelize.DataTypes)
-    db[model.name] = model;
-  });
+// fs
+//   .readdirSync(path.join(__dirname+"/../entities"))
+//   .filter(file => {
+//     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+//   })
+//   .forEach(file => {
+//     const model = require(path.join(__dirname+"/../entities", file));(sequelize,Sequelize.DataTypes)
+//     db[model.name] = model;
+//   });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// Object.keys(db).forEach(modelName => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 //Add entities here -old way
-//db.beer = require('../entities/beer.js');(sequelize,Sequelize);
+db.beer = require('../entities/beer.js')(sequelize,Sequelize);
 
 module.exports = db;
