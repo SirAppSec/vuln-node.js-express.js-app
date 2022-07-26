@@ -1,4 +1,4 @@
-#https://snyk.io/advisor/docker/node
+#https://snyk.io/advisor/docker/node use the least vulnerable package
 FROM node:18.6.0-slim as builder
 RUN mkdir -p /build
 
