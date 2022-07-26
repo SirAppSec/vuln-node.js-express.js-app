@@ -4,12 +4,14 @@
   "description": "Dangerous vulnerable node.js + express dockerized app",
   "main": "src/server.js",
   "scripts": {
-    "test": "mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "vuln-node-js"
+    "test": "mocha",
+    "start": "node src/server.js",
+    "lint": "eslint --fix ."
   },
   "author": "Amit Srour",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "sequelize": "^6.21.3",
+    "sqlite3": "^5.0.10"
+  }
 }
