@@ -6,6 +6,9 @@ const express = require('express'),
     router = require('./router'),
     bodyParser = require('body-parser'),
     db = require('./orm');
+
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
     
 const app = express()
 const PORT = config.PORT;
@@ -34,3 +37,25 @@ db.sequelize.sync().then(() => {
       console.log('Express listening on port:', PORT);
     });
   });
+
+
+// Extended: https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+    swaggerDefinition: {
+      info: {
+        version: "1.0.0",
+        title: "Customer API",
+        description: "Customer API Information",
+        contact: {
+          name: "Amazing Developer"
+        },
+        servers: ["http://localhost:5555"],
+        explorer: true
+      }
+    },
+    // ['.routes/*.js']
+    apis: ["./src/router/routes/*.js"]
+  };
+  
+  const swaggerDocs = swaggerJsDoc(swaggerOptions);
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
