@@ -5,13 +5,10 @@ module.exports = (app,db) => {
 
     //Get all the beers available for ordering
     /**
-     * @swagger
-     * /order:
-     *  get:
-     *    description: Use to list everything the user can order
-     *    responses:
-     *      '200':
-     *        description: A successful response
+     * GET /order
+     * @summary This is the summary of the endpoint
+     * @tags beer
+     * @return {array<Beer>} 200 - success response - application/json
      */
     app.get('/order', (req,res) =>{
         db.beer.findAll()
@@ -19,43 +16,11 @@ module.exports = (app,db) => {
                 res.json(beer);
             });
     });
-
     /**
-    * @swagger
-    * /new-beer:
-    *   post:
-    *     summary: Create a new beer.
-    *     requestBody:
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             type: object
-    *             properties:
-    *               name:
-    *                 type: string
-    *                 description: The beer's name.
-    *                 example: Amazing Beer
-    *               price:
-    *                 type: number
-    *                 description: The beer's price.
-    *                 example: 12
-    *     responses:
-    *       200:
-    *         description: Created
-    *         content:
-    *           application/json:
-    *             schema:
-    *               type: object
-    *               properties:
-    *                 data:
-    *                   type: object
-    *                   properties:
-    *                     id:
-    *                       type: integer
-    *                       description: The beer ID.
-    *                       example: 0
-    */
+     * POST /new-beer
+     * @param {Beer} request.body.required - Beer
+     * @return {object} 200 - song response
+     */
     app.post('/new-beer', (req,res) =>{
         //console.log(db.beers)
         console.log(req.body)
@@ -70,7 +35,7 @@ module.exports = (app,db) => {
                 stock:beerStock,
                 price:beerPrice,
             }).then(new_beer => {
-                res.json(new_beer.id);
+                res.json(new_beer);
             })
                 
 

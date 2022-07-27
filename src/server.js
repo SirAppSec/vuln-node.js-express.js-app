@@ -7,6 +7,11 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     db = require('./orm');
 
+    
+    
+    
+const sjs = require('sequelize-json-schema');
+
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
     
@@ -40,22 +45,65 @@ db.sequelize.sync().then(() => {
 
 
 // Extended: https://swagger.io/specification/#infoObject
-const swaggerOptions = {
-    swaggerDefinition: {
-      info: {
-        version: "1.0.0",
-        title: "Customer API",
-        description: "Customer API Information",
-        contact: {
-          name: "Amazing Developer"
-        },
-        servers: ["http://localhost:5555"],
-        explorer: true
-      }
-    },
-    // ['.routes/*.js']
-    apis: ["./src/router/routes/*.js"]
-  };
+// const swaggerOptions = {
+//     swaggerDefinition: {
+//       info: {
+//         version: "1.0.0",
+//         title: "Customer API",
+//         description: "Customer API Information",
+//         contact: {
+//           name: "Amazing Developer"
+//         },
+//         servers: ["http://localhost:5555"],
+//         explorer: true
+//       }
+//     },
+//     // ['.routes/*.js']
+//     apis: ["./src/router/routes/*.js"]
+//   };
   
-  const swaggerDocs = swaggerJsDoc(swaggerOptions);
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const expressJSDocSwagger = require('express-jsdoc-swagger');
+
+const docOptions = {
+  info: {
+    version: '1.0.0',
+    title: 'Albums store',
+    license: {
+      name: 'MIT',
+    },
+  },
+  security: {
+    BasicAuth: {
+      type: 'http',
+      scheme: 'basic',
+    },
+  },
+  baseDir: __dirname,
+  // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
+  filesPattern: './../**/*.js',
+  // URL where SwaggerUI will be rendered
+  swaggerUIPath: '/api-docs',
+  // Expose OpenAPI UI
+  exposeSwaggerUI: true,
+  // Expose Open API JSON Docs documentation in `apiDocsPath` path.
+  exposeApiDocs: false,
+  // Open API JSON Docs endpoint.
+  apiDocsPath: '/v3/api-docs',
+  // Set non-required fields as nullable by default
+  notRequiredAsNullable: false,
+  // You can customize your UI options.
+  // you can extend swagger-ui-express config. You can checkout an example of this
+  // in the `example/configuration/swaggerOptions.js`
+  swaggerUiOptions: {},
+  // multiple option in case you want more that one instance
+  multiple: true,
+};
+
+  //const swaggerDocs = expressJSDocSwagger(swaggerOptions);
+
+expressJSDocSwagger(app)(docOptions);
+  //app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  
+  //generate schemas from sequelize
+  const options = {exclude: ['id', 'createdAt', 'updatedAt']};
+  console.log(sjs.getSequelizeSchema(db.sequelize, options));

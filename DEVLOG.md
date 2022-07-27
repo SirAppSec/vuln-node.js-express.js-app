@@ -8,3 +8,5 @@ npm install sequelize
 npm install dotenv
 npm install swagger-jsdoc
 npm install swagger-ui-express
+npm install swagger-sequelize
+npm install sequelize-json-schema

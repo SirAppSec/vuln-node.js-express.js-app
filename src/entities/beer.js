@@ -1,5 +1,10 @@
 'use strict';
-
+/**
+ * A song type
+ * @typedef {object} Beer
+ * @property {string} name.required - Name of the beer
+ * @property {number} price.required - The price
+ */
 module.exports = (sequalize, DataTypes) =>{
     const Beer = sequalize.define('beer',{
         id: {
