@@ -1,6 +1,6 @@
 'use strict';
 /**
- * A song type
+ * A Beer type
  * @typedef {object} Beer
  * @property {string} name.required - Name of the beer
  * @property {number} price.required - The price
