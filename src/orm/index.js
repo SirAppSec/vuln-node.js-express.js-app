@@ -37,5 +37,6 @@ db.sequelize = sequelize;
 
 //Add entities here -old way
 db.beer = require('../entities/beer.js')(sequelize,Sequelize);
+db.user = require('../entities/user.js')(sequelize,Sequelize);
 
 module.exports = db;

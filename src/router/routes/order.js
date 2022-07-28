@@ -6,7 +6,7 @@ module.exports = (app,db) => {
     //Get all the beers available for ordering
     /**
      * GET /order
-     * @summary This is the summary of the endpoint
+     * @summary Use to list all available beer
      * @tags beer
      * @return {array<Beer>} 200 - success response - application/json
      */
@@ -18,6 +18,8 @@ module.exports = (app,db) => {
     });
     /**
      * POST /new-beer
+     * @summary user to create a new beer in the system
+     * @tags beer
      * @param {Beer} request.body.required - Beer
      * @return {object} 200 - song response
      */

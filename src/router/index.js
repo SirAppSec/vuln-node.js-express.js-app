@@ -1,7 +1,8 @@
 'user strict';
 
 const routes = [
-    require('./routes/order')
+    require('./routes/order'),
+    require('./routes/user')
 ];
 
 
