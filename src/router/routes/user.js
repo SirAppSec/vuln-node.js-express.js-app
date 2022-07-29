@@ -9,7 +9,7 @@ module.exports = (app,db) => {
      * @tags user
      * @return {array<User>} 200 - success response - application/json
      */
-    app.get('/users', (req,res) =>{
+    app.get('v1/users', (req,res) =>{
         db.user.findAll()
             .then(user => {
                 res.json(user);
@@ -22,7 +22,7 @@ module.exports = (app,db) => {
      * @param {User} request.body.required - User
      * @return {object} 200 - user response
      */
-    app.post('/user', (req,res) =>{
+    app.post('v1/user', (req,res) =>{
         
         console.log(req.body)
         const userEmail = req.body.email;

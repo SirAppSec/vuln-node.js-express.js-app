@@ -26,14 +26,13 @@ console.log(config)
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 //   });
-
+//OPTIONAL: Activate Logging
 //app.use(mrogan('combined'));
 app.use(bodyParser.json());
 router(app, db);
 
-console.log(db)
+//console.log(db)
 
-//OPTIONAL: Activate Logging
 
 
 //drop and resync with { force: true }
@@ -43,31 +42,12 @@ db.sequelize.sync().then(() => {
     });
   });
 
-
-// Extended: https://swagger.io/specification/#infoObject
-// const swaggerOptions = {
-//     swaggerDefinition: {
-//       info: {
-//         version: "1.0.0",
-//         title: "Customer API",
-//         description: "Customer API Information",
-//         contact: {
-//           name: "Amazing Developer"
-//         },
-//         servers: ["http://localhost:5555"],
-//         explorer: true
-//       }
-//     },
-//     // ['.routes/*.js']
-//     apis: ["./src/router/routes/*.js"]
-//   };
-  
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 
 const docOptions = {
   info: {
     version: '1.0.0',
-    title: 'Albums store',
+    title: 'Damn vulnerable app',
     license: {
       name: 'MIT',
     },
