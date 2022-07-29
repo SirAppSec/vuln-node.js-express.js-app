@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha",
     "start": "NODE_ENV=development node src/server.js",
+    "dev": "NODE_ENV=development nodemon src/server.js",
     "lint": "eslint --fix ."
   },
   "author": "Amit Srour",
@@ -14,7 +15,11 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-jsdoc-swagger": "^1.8.0",
+    "libxmljs": "^0.19.10",
+    "md5": "^2.3.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "passport": "^0.6.0",
     "sequelize": "^6.21.3",
     "sequelize-json-schema": "^2.1.1",
     "sqlite3": "^5.0.10",

@@ -10,3 +10,7 @@ npm install swagger-jsdoc
 npm install swagger-ui-express
 npm install swagger-sequelize
 npm install sequelize-json-schema
+npm install libxmljs multer
+npm install libxml
+npm install passport
+npm install md5

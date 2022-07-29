@@ -66,15 +66,24 @@ module.exports = (app,db) => {
                 
 
     });
-
+    /**
+     * Beer DTO for xml
+     * @typedef {object} BeerDTO
+     * @property {string} file - xml file - binary
+     */
     /**
      * POST /v1/new-beer-xml
-     * @summary user to create a new beer in the system using xml parsing
+     * @summary user to create a new beer in the system using xml parsing (xxe)
      * @tags beer
-     * @param {Beer} request.body.required - Beer
+     * @param {BeerDTO} request.body.required - beer info - multipart/form-data       
      * @return {object} 200 - respone with the beer created
      */
-    app.post('/v1/new-beer-xml', upload.single('xml'), async function (req, res) {
+     const os = require('os')
+     const libxmljs  = require('libxmljs');
+     const multer = require('multer')
+     const storage = multer.memoryStorage()
+     const upload = multer({ storage: storage })
+        app.post('/v1/new-beer-xml', upload.single('file'), async function (req, res) {
         if (!req.file) {
             res.sendStatus(500);
             return;
@@ -82,13 +91,28 @@ module.exports = (app,db) => {
     
         try {
             const xml = req.file.buffer;
+            console.log(xml)
+            //const doc = libxmljs.parseXml(xml, {noent: true});
             const doc = libxmljs.parseXml(xml, {noent: true});
+            console.log(doc.text());
+            const beerName = doc.name;
+                const beerPrice = doc.price;
+                const beerCurrncy = 'USD'
+                const beerStock = 'plenty'
+                const new_beer = db.beer.create(
+                    {
+                        name:beerName,
+                        currency:beerCurrncy,
+                        stock:beerStock,
+                        price:beerPrice,
+                    }).then(new_beer => {
+                        res.json(new_beer);
+                    })                
+
             
-            res.send(doc.text());
         } catch (err) {
             res.send(err.toString());
             res.sendStatus(500);
         }
     });
-    
 };

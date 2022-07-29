@@ -5,7 +5,8 @@ const express = require('express'),
     config = require('./config'),
     router = require('./router'),
     bodyParser = require('body-parser'),
-    db = require('./orm');
+    db = require('./orm')
+
 
     
     
@@ -14,7 +15,6 @@ const sjs = require('sequelize-json-schema');
 
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-    
 const app = express()
 const PORT = config.PORT;
 console.log(config)
@@ -68,7 +68,7 @@ const docOptions = {
   // Expose Open API JSON Docs documentation in `apiDocsPath` path.
   exposeApiDocs: false,
   // Open API JSON Docs endpoint.
-  apiDocsPath: '/v3/api-docs',
+  apiDocsPath: '/v1/api-docs',
   // Set non-required fields as nullable by default
   notRequiredAsNullable: false,
   // You can customize your UI options.
