@@ -70,7 +70,7 @@ module.exports = (app,db) => {
      * @property {string} file - xml file - binary
      */
     /**
-     * POST /v1/new-beer-xml
+     * POST /v1/admin/new-beer-xml
      * @summary user to create a new beer in the system using xml parsing (xxe)
      * @tags admin
      * @param {BeerDTO} request.body.required - beer info - multipart/form-data       
@@ -79,7 +79,7 @@ module.exports = (app,db) => {
      const libxmljs  = require('libxmljs');
      const storage = multer.memoryStorage()
      const upload = multer({ storage: storage })
-        app.post('/v1/new-beer-xml', upload.single('file'), async function (req, res) {
+        app.post('/v1/admin/new-beer-xml', upload.single('file'), async function (req, res) {
         if (!req.file) {
             res.sendStatus(500);
             return;

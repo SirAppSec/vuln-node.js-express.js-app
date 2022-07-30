@@ -10,9 +10,7 @@ module.exports = (app,db) => {
      * @return {array<Beer>} 200 - success response - application/json
      */
     app.get('/v1/order', (req,res) =>{
-        db.beer.findAll({
-            include: [db.models.user]
-        })
+        db.beer.findAll({include: "users"})
             .then(beer => {
                 res.json(beer);
             });

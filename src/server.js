@@ -35,15 +35,35 @@ app.use(bodyParser.json());
 var cookieParser = require('cookie-parser');
 
 var session = require('express-session');
+const SessionCookie =  {
+  secure: false,
+  httpOnly: false,
+  sameSite: "lax",
+  maxAge: 1000 * 60 * 60 * 60 * 24 * 2//2 day
+} 
 app.use(session({
   genid:function(req){
-    return new Date().getTime().toString();
+    console.log(req.session)
+    if ( (req.session) && (req.session.uid) ) {
+      return req.session.uid + "_" + 123;
+      //    return new Date().getTime().toString();
+
+    } else {
+      return new Date().getTime().toString();
+    }
   },
-  secret: 'H4rDC0Dead',
+  //secret: 'H4rDC0Dead',
   resave: false, //forces the session to be saved back to store
-  httpOnly: false 
+  httpOnly: false,
+  name:'sessionID',
+  secret: 'SuperSecret',
+  secure:false,
+  saveUninitialized: true,
+  cookie: SessionCookie
 }))
 app.use(cookieParser());
+
+
 // //session secret + expiration + store
 // app.use(passport.initialize());
 // app.use(passport.session()); //persistent login session
@@ -51,7 +71,7 @@ app.use(cookieParser());
 
 router(app, db);
 //drop and resync with { force: true }
-db.sequelize.sync({alter:true}).then(() => {
+db.sequelize.sync({force:true}).then(() => {
     app.listen(PORT, () => {
       console.log('Express listening on port:', PORT);
     });
@@ -102,3 +122,4 @@ expressJSDocSwagger(app)(docOptions);
   //generate schemas from sequelize
   const options = {exclude: ['id', 'createdAt', 'updatedAt']};
   console.log(sjs.getSequelizeSchema(db.sequelize, options));
+

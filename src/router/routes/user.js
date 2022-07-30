@@ -1,20 +1,45 @@
 'user strcit';
 const config = require('./../../config')
 var jwt = require("jsonwebtoken");
+const { user } = require('../../orm');
 module.exports = (app,db) => {
 
     //Get all users
     /**
-     * GET /v1/users/ (PII exposure/oversharing)
-     * @summary list all users
-     * @tags user
+     * GET /v1/admin/users/ 
+     * @summary list all users (PII exposure/oversharing)(jwt manipulation)(auth bypass)
+     * @tags admin
+     * @security BearerAuth
      * @return {array<User>} 200 - success response - application/json
      */
-    app.get('/v1/users', (req,res) =>{
+    app.get('/v1/admin/users', (req,res) =>{
+        console.log("auth",req.headers.authorization)
+        if (req.headers.authorization){ 
+        const user_object = jwt.decode(req.headers.authorization.split(' ')[1])
+        console.log(user_object.role =='admin')
         db.user.findAll({include: "beers"})
-            .then(user => {
-                res.json(user);
+            .then((users) => {
+                if (user_object.role =='admin'){
+                    console.log("fetch users")
+                res.json(users);
+                }       
+                else{ 
+                res.json({error:"Not Admin, try again"})
+            }
+                
+                return;
+            }).catch((e) =>{
+                res.json({error:"error fetching users"+e})
             });
+        
+
+        }else{
+            res.json({error:"missing Token in header"})
+            return;
+        }
+        
+
+
     });
         //Get information about other users
     /**
@@ -25,7 +50,7 @@ module.exports = (app,db) => {
      * @return {array<User>} 200 - success response - application/json
      */
      app.get('/v1/user/:id', (req,res) =>{
-        db.user.findOne({where:id = req.params.id},{include: "beers"})
+        db.user.findOne({where: { id : req.params.id}},{include: "beers"})
             .then(user => {
                 res.json(user);
             });
@@ -65,7 +90,7 @@ module.exports = (app,db) => {
      * @return {object} 200 - user response
      */
          app.post('/v1/love/:beer_id', (req,res) =>{
-             con
+            
             const current_user_id = 1;
             const beer_id = req.params.beer_id;
 
