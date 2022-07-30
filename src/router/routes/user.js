@@ -10,7 +10,7 @@ module.exports = (app,db) => {
      * @return {array<User>} 200 - success response - application/json
      */
     app.get('/v1/users', (req,res) =>{
-        db.user.findAll()
+        db.user.findAll({include: "beers"})
             .then(user => {
                 res.json(user);
             });
@@ -23,8 +23,7 @@ module.exports = (app,db) => {
      * @return {object} 200 - user response
      */
     app.post('/v1/user', (req,res) =>{
-        
-        console.log(req.body)
+
         const userEmail = req.body.email;
         const userName = req.body.name;
         const userRole = req.body.role
@@ -43,6 +42,35 @@ module.exports = (app,db) => {
                 
 
     });
+        /**
+     * POST /v1/love/{beer_id}
+     * @summery make a user love a beer(csrf)
+     * @tags user
+     * @param {integer} beer_id.path.required - User
+     * @return {object} 200 - user response
+     */
+         app.post('/v1/love/:beer_id', (req,res) =>{
+            const current_user_id = 1;
+            const beer_id = req.params.beer_id;
+
+            db.beer.findOne({
+                where:{id:beer_id}
+            }).then((beer) => {
+                const user = db.user.findOne(
+                    {where: id = current_user_id},
+                    {include: 'beers'}).then(current_user => {
+                        console.log(current_user)
+                        current_user.addBeer(beer)
+                        res.json(current_user);
+                    })
+            })
+            .catch((e)=>{
+                res.json(e)
+            })
+
+                    
+    
+        });
     /**
  * LoginUserDTO for login
  * @typedef {object} LoginUserDTO
@@ -83,6 +111,7 @@ module.exports = (app,db) => {
                 //compare password with and without hash
                 if((user[0].password == userPassword) || (md5(user[0].password) == userPassword)){
                     //Add jwt token
+                    //logge in logichere
                     res.status(200).json(user);
                     return;
                 }

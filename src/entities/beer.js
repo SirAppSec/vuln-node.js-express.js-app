@@ -46,5 +46,6 @@ module.exports = (sequalize, DataTypes) =>{
           paranoid: true,
           underscored: true
         });
+        
     return Beer;
 };

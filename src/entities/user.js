@@ -1,4 +1,5 @@
 'use strict';
+
 /**
  * A User type
  * @typedef {object} User
@@ -20,6 +21,10 @@ module.exports = (sequalize, DataTypes) =>{
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        profile_pic: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         password: {
             type:DataTypes.STRING,
@@ -49,5 +54,7 @@ module.exports = (sequalize, DataTypes) =>{
           paranoid: true,
           underscored: true
         });
+
+        
     return User;
 };
