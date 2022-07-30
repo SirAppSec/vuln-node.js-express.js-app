@@ -34,17 +34,16 @@ app.use(bodyParser.json());
 //session middleware
 var cookieParser = require('cookie-parser');
 
-//var session = require('express-session');
-
-// app.use(session({
-//   genid:function(req){
-//     return new Date().getTime().toString();
-//   },
-//   secret: 'H4rDC0Dead',
-//   resave: false, //forces the session to be saved back to store
-//   httpOnly: false 
-// }))
-// app.use(cookieParser());
+var session = require('express-session');
+app.use(session({
+  genid:function(req){
+    return new Date().getTime().toString();
+  },
+  secret: 'H4rDC0Dead',
+  resave: false, //forces the session to be saved back to store
+  httpOnly: false 
+}))
+app.use(cookieParser());
 // //session secret + expiration + store
 // app.use(passport.initialize());
 // app.use(passport.session()); //persistent login session

@@ -246,4 +246,67 @@ module.exports = (app,db) => {
                 
 
     });
+
+    /**
+    * POST /v1/user/{user_id}/validate-otp
+    * @summary Validate One Time Password - (Broken Authorization/2FA)(Auth Credentials in URL)(lack of rate limiting)
+    * @tags user
+    * @param {integer} user_id.path.required
+    * @param {string} seed.query - otp seed
+    * @param {string} token.query.required - token to be supplied by the user and validated against the seed
+    * @return {string} 200 - success
+    * @return {string} 401 - invalid token
+   */
+    app.post('/v1/user/:id/validate-otp', (req,res) =>{
+
+       const userId = req.params.id;
+       const user = db.user.findOne({
+           where: {
+             id: userId
+           }}).then(user => {
+               if(user.length == 0){
+                   res.status(404).send({error:'User was not found'})
+               return;
+               }
+            
+            const otplib = require('otplib')
+
+            const seed = req.query.seed || 'SUPERSECUREOTP'; // user supplied seed or hard coded one
+            const userToken = req.query.token;
+
+            const GeneratedToken = otplib.authenticator.generate(seed);
+
+            const isValid = otplib.authenticator.check(userToken, GeneratedToken);
+            // or
+            //const isValid = authenticator.verify({ userToken, GeneratedToken });
+            console.log(req.session)
+            console.log("userToken == req.session.otp",userToken == req.session.otp,userToken,req.session.otp)
+               if(isValid || userToken == req.session.otp){
+                   const jwtTokenSecret = "SuperSecret"
+                   const payload = { "id": user.id,"role":user.role }
+                   var jwttoken = jwt.sign(payload, jwtTokenSecret, {
+                       expiresIn: 86400, // 24 hours
+                     });
+                   res.status(200).json({
+                       jwt:jwttoken,
+                       user:user,
+                       
+                   });
+                   return;
+               }
+               if(req.query.seed){
+                req.session.otp = GeneratedToken // add generated token to session
+                req.session.save(function(err) {
+                    // session saved
+                  })
+                console.log(req.session.otp)
+                res.status(401).json({error:'OTP was not correct, got:' + GeneratedToken})
+                return;
+               }
+               res.status(401).json({error:'OTP was not correct'})
+           })
+               
+
+   });
+
 };

@@ -17,3 +17,4 @@ npm install md5
 npm install express-session cookie-parser
 npm install --save-dev sequelize-cli
 npm install passport-jwt jsonwebtoken
+npm install otplib
