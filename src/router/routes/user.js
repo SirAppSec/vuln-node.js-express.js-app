@@ -51,7 +51,7 @@ module.exports = (app,db) => {
  */
     /**
      * POST /v1/user/login
-     * @summery login page - (Session fixation)(user enumeration)
+     * @summery login page - (Session fixation)(user enumeration)(insecure/no hashing)
      * @tags user
      * @param {LoginUserDTO} request.body.required - user login credentials - application/json       
      * @return {string} 200 - success
@@ -67,6 +67,7 @@ module.exports = (app,db) => {
             failureMessage: true,
             keepSessionInfo: true
           })
+          console.log(req.session)
         const userEmail = req.body.email;
         const userPassword = req.body.password;
         const user = db.user.findAll({
@@ -83,6 +84,7 @@ module.exports = (app,db) => {
                 if((user[0].password == userPassword) || (md5(user[0].password) == userPassword)){
                     //Add jwt token
                     res.status(200).json(user);
+                    return;
                 }
                 res.status(401).json({error:'Password was not correct'})
             })

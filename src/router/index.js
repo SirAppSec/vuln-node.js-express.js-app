@@ -3,7 +3,8 @@
 const routes = [
     require('./routes/order'),
     require('./routes/user'),
-    require('./routes/system')
+    require('./routes/system'),
+    require('./routes/admin')
 ];
 
 

@@ -4,6 +4,8 @@
  * @typedef {object} Beer
  * @property {string} name.required - Name of the beer
  * @property {number} price.required - The price
+ * @property {string} picture - The picture id
+
  */
 module.exports = (sequalize, DataTypes) =>{
     const Beer = sequalize.define('beer',{
@@ -16,6 +18,10 @@ module.exports = (sequalize, DataTypes) =>{
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        picture: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         price: {
             type:DataTypes.FLOAT,

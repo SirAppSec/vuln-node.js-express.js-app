@@ -1,11 +1,10 @@
 'user strcit';
-//const beers = require("./../../entities/beer.js").Beer
-
+var fs = require('fs')
 module.exports = (app,db) => {
     //https://github.com/BRIKEV/express-jsdoc-swagger
     //Get all the beers available for ordering
     /**
-     * GET /order
+     * GET /v1/order
      * @summary Use to list all available beer
      * @tags beer
      * @return {array<Beer>} 200 - success response - application/json
@@ -16,8 +15,44 @@ module.exports = (app,db) => {
                 res.json(beer);
             });
     });
+    /**
+     * GET /v1/beer-pic/
+     * @summary Get a picture of a beer (path traversal)
+     * @note http://localhost:5000/v1/beer-pic/?picture=../.env
+     * @param {string} picture.query.required picture identifier
+     * @tags beer
+     */
+     app.get('/v1/beer-pic/', (req,res) =>{
+            var filename = req.query.picture,
+            filePath = `../../../uploads/${filename}`;
+            const path=require('path')
+            console.log(__dirname)
+            console.log(path.dirname(filePath))
+
+            console.log(path.normalize(filePath))
+            fs.readFile(path.join(__dirname, filePath),function(err,data){
+                if (err){
+                    console.log(err)
+                    res.send("error")
+                }else{
+                    if(filename.split('.').length == 1)
+                    {
+                        res.type('image/jpeg')
+                        //res.set('Content-Type', 'image/jpg');
+                        res.send(data)
+                        return;
+                }
+                let buffer = Buffer.from(data, 'utf8');
+                res.send(buffer)
+                    
+                }
+                
+            })
+
+        
+    });
         /**
-     * GET /search/{filter}/{query}
+     * GET /v1/search/{filter}/{query}
      * @summary Search for a specific beer (SQL Injection)
      * @description sqlmap -u 'http://localhost:5000/search/id/2*'
      * @tags beer
@@ -39,80 +74,4 @@ module.exports = (app,db) => {
                   })
         
         });
-    /**
-     * POST /new-beer
-     * @summary user to create a new beer in the system
-     * @tags beer
-     * @param {Beer} request.body.required - Beer
-     * @return {object} 200 - respone with the beer created
-     */
-    app.post('/v1/new-beer', (req,
-        res) =>{
-        //console.log(db.beers)
-        console.log(req.body)
-        const beerName = req.body.name;
-        const beerPrice = req.body.price;
-        const beerCurrncy = 'USD'
-        const beerStock = 'plenty'
-        const new_beer = db.beer.create(
-            {
-                name:beerName,
-                currency:beerCurrncy,
-                stock:beerStock,
-                price:beerPrice,
-            }).then(new_beer => {
-                res.json(new_beer);
-            })
-                
-
-    });
-    /**
-     * Beer DTO for xml
-     * @typedef {object} BeerDTO
-     * @property {string} file - xml file - binary
-     */
-    /**
-     * POST /v1/new-beer-xml
-     * @summary user to create a new beer in the system using xml parsing (xxe)
-     * @tags beer
-     * @param {BeerDTO} request.body.required - beer info - multipart/form-data       
-     * @return {object} 200 - respone with the beer created
-     */
-     const os = require('os')
-     const libxmljs  = require('libxmljs');
-     const multer = require('multer')
-     const storage = multer.memoryStorage()
-     const upload = multer({ storage: storage })
-        app.post('/v1/new-beer-xml', upload.single('file'), async function (req, res) {
-        if (!req.file) {
-            res.sendStatus(500);
-            return;
-        }
-    
-        try {
-            const xml = req.file.buffer;
-            console.log(xml)
-            //const doc = libxmljs.parseXml(xml, {noent: true});
-            const doc = libxmljs.parseXml(xml, {noent: true});
-            console.log(doc.text());
-            const beerName = doc.name;
-                const beerPrice = doc.price;
-                const beerCurrncy = 'USD'
-                const beerStock = 'plenty'
-                const new_beer = db.beer.create(
-                    {
-                        name:beerName,
-                        currency:beerCurrncy,
-                        stock:beerStock,
-                        price:beerPrice,
-                    }).then(new_beer => {
-                        res.json(new_beer);
-                    })                
-
-            
-        } catch (err) {
-            res.send(err.toString());
-            res.sendStatus(500);
-        }
-    });
 };

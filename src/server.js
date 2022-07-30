@@ -29,14 +29,29 @@ console.log(config)
 //OPTIONAL: Activate Logging
 //app.use(mrogan('combined'));
 app.use(bodyParser.json());
+
+
+//session middleware
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
+app.use(session({
+  genid:function(req){
+    return new Date().getTime().toString();
+  },
+  secret: 'H4rDC0Dead',
+  resave: false, //forces the session to be saved back to store
+  httpOnly: false 
+}))
+app.use(cookieParser());
+//session secret + expiration + store
+app.use(passport.initialize());
+app.use(passport.session()); //persistent login session
+//app.use(flash());
+
 router(app, db);
-
-//console.log(db)
-
-
-
 //drop and resync with { force: true }
-db.sequelize.sync().then(() => {
+db.sequelize.sync({alter:true}).then(() => {
     app.listen(PORT, () => {
       console.log('Express listening on port:', PORT);
     });
