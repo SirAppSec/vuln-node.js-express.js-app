@@ -9,7 +9,7 @@ console.log("Database path:",db_path)
 
 const config = {
     PORT: process.env.APP_PORT || 5000,
-    jwtSecret: process.env.JWT_SECRET,
+    jwtSecret: process.env.JWT_SECRET | "superSecretPassword",
 
     //env variables
     DATABASE_USERNAME: process.env.DATABASE_USERNAME || null,

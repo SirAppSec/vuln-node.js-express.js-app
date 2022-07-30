@@ -17,6 +17,7 @@ const sequelize = new Sequelize(env.DATABASE, env.DATABASE_USERNAME, env.DATABAS
 
 
 const db ={};
+db.ROLES = ["user", "admin", "blocked"];
 // fs
 //   .readdirSync(path.join(__dirname+"/../entities"))
 //   .filter(file => {

@@ -8,6 +8,7 @@
  * @property {string} password.required - User Password -> encrypt to md5 
  * @property {string} role - User Role default admin (admin,user,blocked)
  * @property {string} address - User Address
+ * @property {string} profile_pic - User profile pic
 
  */
 module.exports = (sequalize, DataTypes) =>{

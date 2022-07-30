@@ -5,7 +5,7 @@ module.exports = (app,db) => {
     //Get all the beers available for ordering
     /**
      * GET /v1/order
-     * @summary Use to list all available beer
+     * @summary Use to list all available beer(Excessive data exposure)
      * @tags beer
      * @return {array<Beer>} 200 - success response - application/json
      */
