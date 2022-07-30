@@ -2,10 +2,10 @@
 
 const path = require('path');
 require('dotenv').config({path:path.join(__dirname+'./../../.env')});
-console.log(process.env.DATABASE_DIALECT || 'Sample from .env does not work, check .env path')
+//console.log(process.env.DATABASE_DIALECT || 'Sample from .env does not work, check .env path')
 
 let db_path = path.join(__dirname+ "/../../db/", 'db.sqlite')
-console.log("Database path:",db_path)
+//console.log("Database path:",db_path)
 
 const config = {
     PORT: process.env.APP_PORT || 5000,

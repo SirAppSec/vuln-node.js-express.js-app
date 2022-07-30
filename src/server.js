@@ -17,7 +17,6 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const app = express()
 const PORT = config.PORT;
-console.log(config)
 //OPTIONAL: Security headers?????
 // app.use((req, res, next) => {
 //     res.header('Content-Type', 'application/json');
@@ -43,7 +42,6 @@ const SessionCookie =  {
 } 
 app.use(session({
   genid:function(req){
-    console.log(req.session)
     if ( (req.session) && (req.session.uid) ) {
       return req.session.uid + "_" + 123;
       //    return new Date().getTime().toString();
@@ -71,7 +69,7 @@ app.use(cookieParser());
 
 router(app, db);
 //drop and resync with { force: true }
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync({alter:true}).then(() => {
     app.listen(PORT, () => {
       console.log('Express listening on port:', PORT);
     });
@@ -121,5 +119,5 @@ expressJSDocSwagger(app)(docOptions);
   
   //generate schemas from sequelize
   const options = {exclude: ['id', 'createdAt', 'updatedAt']};
-  console.log(sjs.getSequelizeSchema(db.sequelize, options));
+sjs.getSequelizeSchema(db.sequelize, options);
 

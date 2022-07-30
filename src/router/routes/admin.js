@@ -7,16 +7,15 @@ module.exports = (app,db) => {
     //Get all the beers available for ordering
 
     /**
-     * POST /v1/admin/new-beer
-     * @summary user to create a new beer in the system
+     * POST /v1/admin/new-beer/
+     * @summary use to create a new beer in the system
      * @tags admin
      * @param {Beer} request.body.required - Beer
      * @return {object} 200 - respone with the beer created
      */
-    app.post('/v1/admin/new-beer', (req,
+    app.post('/v1/admin/new-beer/', (req,
         res) =>{
-        //console.log(db.beers)
-        console.log(req.body)
+
         const beerName = req.body.name;
         const beerPrice = req.body.price;
         const beerPic = req.body.picture;
@@ -41,14 +40,14 @@ module.exports = (app,db) => {
      * @property {string} file - image file - binary
      */
     /**
-     * POST /v1/admin/upload-pic
+     * POST /v1/admin/upload-pic/
      * @summary Image upload for admins
      * @tags admin
      * @param {BeerPicDTO} request.body.required - image - multipart/form-data       
      * @return {object} 200 - respone with the image created
      */
      const uploadImage = multer({ dest: './uploads/', })
-        app.post('/v1/admin/upload-pic', uploadImage.single('file'), async function (req, res) {
+        app.post('/v1/admin/upload-pic/', uploadImage.single('file'), async function (req, res) {
         if (!req.file) {
             res.sendStatus(500);
             return;
@@ -70,8 +69,8 @@ module.exports = (app,db) => {
      * @property {string} file - xml file - binary
      */
     /**
-     * POST /v1/admin/new-beer-xml
-     * @summary user to create a new beer in the system using xml parsing (xxe)
+     * POST /v1/admin/new-beer-xml/
+     * @summary use to create a new beer in the system using xml parsing (XXE - XML External Entity)
      * @tags admin
      * @param {BeerDTO} request.body.required - beer info - multipart/form-data       
      * @return {object} 200 - respone with the beer created
@@ -79,7 +78,7 @@ module.exports = (app,db) => {
      const libxmljs  = require('libxmljs');
      const storage = multer.memoryStorage()
      const upload = multer({ storage: storage })
-        app.post('/v1/admin/new-beer-xml', upload.single('file'), async function (req, res) {
+        app.post('/v1/admin/new-beer-xml/', upload.single('file'), async function (req, res) {
         if (!req.file) {
             res.sendStatus(500);
             return;
@@ -90,7 +89,7 @@ module.exports = (app,db) => {
             console.log(xml)
             //const doc = libxmljs.parseXml(xml, {noent: true});
             const doc = libxmljs.parseXml(xml, {noent: true});
-            console.log(doc.text());
+            //console.log(doc.text());
             const beerName = doc.name;
                 const beerPrice = doc.price;
                 const beerCurrncy = 'USD'

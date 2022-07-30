@@ -7,20 +7,19 @@ module.exports = (app,db) => {
     //Get all users
     /**
      * GET /v1/admin/users/ 
-     * @summary list all users (PII exposure/oversharing)(jwt manipulation)(auth bypass)
+     * @summary List all users (jwt manipulation)(auth bypass)
      * @tags admin
      * @security BearerAuth
      * @return {array<User>} 200 - success response - application/json
      */
-    app.get('/v1/admin/users', (req,res) =>{
-        console.log("auth",req.headers.authorization)
+    app.get('/v1/admin/users/', (req,res) =>{
+        //console.log("auth",req.headers.authorization)
         if (req.headers.authorization){ 
         const user_object = jwt.decode(req.headers.authorization.split(' ')[1])
-        console.log(user_object.role =='admin')
         db.user.findAll({include: "beers"})
             .then((users) => {
                 if (user_object.role =='admin'){
-                    console.log("fetch users")
+                    //console.log("fetch users")
                 res.json(users);
                 }       
                 else{ 
@@ -100,7 +99,6 @@ module.exports = (app,db) => {
                 const user = db.user.findOne(
                     {where: id = current_user_id},
                     {include: 'beers'}).then(current_user => {
-                        console.log(current_user)
                         current_user.addBeer(beer)
                         res.json(current_user);
                     })
@@ -136,7 +134,6 @@ module.exports = (app,db) => {
             where: {
               email: userEmail
             }}).then(user => {
-                console.log(user)
                 if(user.length == 0){
                     res.status(404).send({error:'User was not found'})
                 return;
@@ -149,7 +146,6 @@ module.exports = (app,db) => {
                     //logge in logichere
                     const jwtTokenSecret = "SuperSecret"
                     const payload = { "id": user[0].id,"role":user[0].role }
-                    console.log(payload)
                     var token = jwt.sign(payload, jwtTokenSecret, {
                         expiresIn: 86400, // 24 hours
                       });
@@ -225,14 +221,12 @@ module.exports = (app,db) => {
         const userEmail = req.body.email
         const userProfilePic = req.body.profile_pic
         const userAddress = req.body.address
-        console.log(req.body)
         const user = db.user.update(req.body, {
             where: {
                 id : userId
             }},
             )
         .then((user)=>{
-            console.log(user)
             res.send(user)
         })
 
@@ -255,14 +249,12 @@ module.exports = (app,db) => {
      app.put('/v1/admin/promote/:id', (req,res) =>{
 
         const userId = req.params.id;
-        console.log(req.body)
         const user = db.user.update({role:'admin'}, {
             where: {
                 id : userId
             }}
             )
         .then((user)=>{
-            console.log(user)
             res.send(user)
         })
 
@@ -304,8 +296,6 @@ module.exports = (app,db) => {
             const isValid = otplib.authenticator.check(userToken, GeneratedToken);
             // or
             //const isValid = authenticator.verify({ userToken, GeneratedToken });
-            console.log(req.session)
-            console.log("userToken == req.session.otp",userToken == req.session.otp,userToken,req.session.otp)
                if(isValid || userToken == req.session.otp){
                    const jwtTokenSecret = "SuperSecret"
                    const payload = { "id": user.id,"role":user.role }
@@ -324,7 +314,6 @@ module.exports = (app,db) => {
                 req.session.save(function(err) {
                     // session saved
                   })
-                console.log(req.session.otp)
                 res.status(401).json({error:'OTP was not correct, got:' + GeneratedToken})
                 return;
                }

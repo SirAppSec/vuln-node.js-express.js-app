@@ -5,7 +5,7 @@ module.exports = (app,db) => {
     //Get all the beers available for ordering
     /**
      * GET /v1/order
-     * @summary Use to list all available beer(Excessive data exposure)
+     * @summary Use to list all available beer(Excessive Data Exposure)(PII Exposure/Oversharing)
      * @tags beer
      * @return {array<Beer>} 200 - success response - application/json
      */
@@ -17,7 +17,7 @@ module.exports = (app,db) => {
     });
     /**
      * GET /v1/beer-pic/
-     * @summary Get a picture of a beer (path traversal)
+     * @summary Get a picture of a beer (Path Traversal)
      * @note http://localhost:5000/v1/beer-pic/?picture=../.env
      * @param {string} picture.query.required picture identifier
      * @tags beer
@@ -26,13 +26,12 @@ module.exports = (app,db) => {
             var filename = req.query.picture,
             filePath = `../../../uploads/${filename}`;
             const path=require('path')
-            console.log(__dirname)
-            console.log(path.dirname(filePath))
+            //console.log(__dirname)
+            //console.log(path.dirname(filePath))
 
-            console.log(path.normalize(filePath))
+            (path.normalize(filePath))
             fs.readFile(path.join(__dirname, filePath),function(err,data){
                 if (err){
-                    console.log(err)
                     res.send("error")
                 }else{
                     if(filename.split('.').length == 1)
@@ -66,7 +65,6 @@ module.exports = (app,db) => {
                 const sql = "SELECT * FROM beers WHERE "+filter+" = '"+query+"'";
 
                 const beers = db.sequelize.query(sql, { type: 'RAW' }).then(beers => {
-                    console.log(beers)
                     res.status(200).send(beers);
 
                 }).catch(function (err) {
