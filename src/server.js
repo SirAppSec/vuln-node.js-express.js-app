@@ -116,3 +116,9 @@ expressJSDocSwagger(app)(docOptions);
   const options = {exclude: ['id', 'createdAt', 'updatedAt']};
 sjs.getSequelizeSchema(db.sequelize, options);
 
+const expressNunjucks = require('express-nunjucks');
+app.set('views', __dirname + '/templates');
+const njk = expressNunjucks(app, {
+  watch: true,
+  noCache: true
+});

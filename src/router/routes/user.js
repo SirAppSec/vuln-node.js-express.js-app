@@ -40,10 +40,10 @@ module.exports = (app,db) => {
 
 
     });
-        //Get information about other users
+    //Get information about other users
     /**
      * GET /v1/user/{user_id}
-     * @summary get information of a specific user
+     * @summary Get information of a specific user
      * @tags user
      * @param {integer} user_id.path.required - user id to get information
      * @return {array<User>} 200 - success response - application/json
@@ -56,7 +56,7 @@ module.exports = (app,db) => {
     });
     /**
      * DELETE /v1/user/{user_id} 
-     * @summary Delete a specific user
+     * @summary Delete a specific user (Broken Function Level Authentication)
      * @tags user
      * @param {integer} user_id.path.required - user id to delete (Broken Function Level)
      * @return {array<User>} 200 - success response - application/json
@@ -108,7 +108,7 @@ module.exports = (app,db) => {
     });
         /**
      * POST /v1/love/{beer_id}
-     * @summary make a user love a beer(csrf)
+     * @summary make a user love a beer(CSRF - Client Side Request Forgery)
      * @tags user
      * @param {integer} beer_id.path.required - User
      * @return {object} 200 - user response
@@ -144,7 +144,7 @@ module.exports = (app,db) => {
      */
     /**
      * POST /v1/user/token
-     * @summary login endpoint to get jwt token - (insecure jwt)
+     * @summary login endpoint to get jwt token - (Insecure JWT Implementation)
      * @tags user
      * @param {LoginUserDTO} request.body.required - user login credentials - application/json       
      * @return {string} 200 - success
