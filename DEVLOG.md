@@ -19,3 +19,4 @@ npm install --save-dev sequelize-cli
 npm install passport-jwt jsonwebtoken
 npm install otplib
 npm install node-serialize
+npm install axios

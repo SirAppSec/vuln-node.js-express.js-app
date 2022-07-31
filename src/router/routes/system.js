@@ -65,4 +65,35 @@ module.exports = (app,db) => {
         console.log(deser)
         
     });
+    //perform a test on an endpoint
+    /**
+     * GET /v1/test/
+     * @summary Perform a get request on another url in the system (SSRF - Server Side Request Forgery)
+     * @tags system
+     * @param {string} url.query.required - the beer brand you want to redirect to
+     */
+     app.get('/v1/test/', (req,res) =>{
+         var requests = require('axios')
+        var url = req.query.url
+        console.log(url)
+        if(url){
+
+            requests.get(url)
+            .then(Ares => {
+                //console.log(Ares);
+                res.json({response:Ares.status});
+                console.log(`statusCode: ${Ares.status}`);
+            })
+            .catch(error => {
+                console.error(error);
+                res.json({response:error});
+
+            });
+        } else{
+            res.json({error:"No url provided"});
+
+        }
+        console.log(res)
+            return
+        });
 };

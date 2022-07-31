@@ -45,7 +45,7 @@ module.exports = (app,db) => {
      * GET /v1/user/{user_id}
      * @summary get information of a specific user
      * @tags user
-     * @param {integer} user_id.path.required - user id to get information (horizontal priv esc)
+     * @param {integer} user_id.path.required - user id to get information
      * @return {array<User>} 200 - success response - application/json
      */
      app.get('/v1/user/:id', (req,res) =>{
@@ -54,6 +54,22 @@ module.exports = (app,db) => {
                 res.json(user);
             });
     });
+    /**
+     * DELETE /v1/user/{user_id} 
+     * @summary Delete a specific user
+     * @tags user
+     * @param {integer} user_id.path.required - user id to delete (Broken Function Level)
+     * @return {array<User>} 200 - success response - application/json
+     */
+         app.delete('/v1/user/:id', (req,res) =>{
+            db.user.destroy({where: { id : req.params.id}},{include: "beers"})
+                .then(user => {
+                    res.json({result: "deleted"});
+                })
+                .catch(e =>{
+                    res.json({error:e})
+                });
+        });
     /**
      * POST /v1/user/
      * @summary create a new user (weak password)
