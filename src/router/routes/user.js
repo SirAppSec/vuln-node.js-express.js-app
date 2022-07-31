@@ -72,18 +72,27 @@ module.exports = (app,db) => {
         });
     /**
      * POST /v1/user/
-     * @summary create a new user (weak password)
+     * @summary create a new user (Weak Password)(ReDos - Regular Expression Denial of Service)
+     * @description   "email": "aaaaaaaaa@aaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa{",
      * @tags user
      * @param {User} request.body.required - User
      * @return {object} 200 - user response
      */
-    app.post('/v1/user', (req,res) =>{
+    app.post('/v1/user/', (req,res) =>{
 
         const userEmail = req.body.email;
         const userName = req.body.name;
         const userRole = req.body.role
         const userPassword = req.body.password;
         const userAddress = req.body.address
+        //validate email using regular expression
+        var emailExpression = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var regex = new RegExp(emailExpression)
+            console.log(emailExpression.test(userEmail))
+            if (!emailExpression.test(userEmail)){
+                res.json({error:"regular expression of email couldn't be validated"})
+                return
+            }
         const new_user = db.user.create(
             {
                 name:userName,

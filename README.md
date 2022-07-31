@@ -11,8 +11,8 @@ USE WITH CAUTION
 3. Learn how not to write code
 
 # Advantage over NodeGoat
-While NodeGoat cover mostly OWASP Top 10. This project have multiple chains and other vulnerabilities like low hanging fruits that are commonly found in production and enterprise level applications
-.
+While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have more vulnerabilities, multiple exploit chains and other vulnerabilities like low hanging fruits that are commonly found in production and enterprise level applications.
+
 # Vulnerabilities
 * Sql injection
 * Business Logic
@@ -44,11 +44,18 @@ While NodeGoat cover mostly OWASP Top 10. This project have multiple chains and 
 * User Enumeration
 * Improper Asset management 
 * Broken Function Level
-* ReDoS - Regular Expression Denial Of Service (WIP)
-* Insufficient Logging & Monitoring https://snyk.io/blog/remediate-javascript-type-confusion-bypassed-input-validation/
+* DOS - Denial of Service
+* ReDoS - Regular Expression Denial Of Service
+* Insufficient Logging & Monitoring 
 
 ## Todo
 * Type Confusion
+* Prototype pollution
+* Log injection
+* Host header poisoning
+* Template injection (SSTI)
+* Encryption vulnerabilities
+* Trust boundary violations
 
 # How to Install
 `docker-compose up`
@@ -63,5 +70,6 @@ Access the api from http://localhost:5000/api-docs
 
 # Ref
 https://owasp.org/www-project-api-security/
-
+https://www.shiftleft.io/blog/node.js-vulnerability-cheatsheet/
+https://snyk.io/blog/remediate-javascript-type-confusion-bypassed-input-validation/
 https://app-sec.gitbook.io/application-security/node.js-+-express.js-security-best-practices
