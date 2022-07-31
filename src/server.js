@@ -13,8 +13,7 @@ const express = require('express'),
     
 const sjs = require('sequelize-json-schema');
 
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+
 const app = express()
 const PORT = config.PORT;
 //OPTIONAL: Security headers?????
@@ -25,6 +24,7 @@ const PORT = config.PORT;
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 //   });
+
 //OPTIONAL: Activate Logging
 //app.use(mrogan('combined'));
 app.use(bodyParser.json());
@@ -50,7 +50,7 @@ app.use(session({
       return new Date().getTime().toString();
     }
   },
-  //secret: 'H4rDC0Dead',
+  //secret for production: 'H4rDC0Dead',
   resave: false, //forces the session to be saved back to store
   httpOnly: false,
   name:'sessionID',
@@ -61,13 +61,8 @@ app.use(session({
 }))
 app.use(cookieParser());
 
-
-// //session secret + expiration + store
-// app.use(passport.initialize());
-// app.use(passport.session()); //persistent login session
-// //app.use(flash());
-
 router(app, db);
+
 //drop and resync with { force: true }
 db.sequelize.sync({alter:true}).then(() => {
     app.listen(PORT, () => {

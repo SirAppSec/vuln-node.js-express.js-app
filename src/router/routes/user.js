@@ -7,7 +7,7 @@ module.exports = (app,db) => {
     //Get all users
     /**
      * GET /v1/admin/users/ 
-     * @summary List all users (jwt manipulation)(auth bypass)
+     * @summary List all users (Unverified JWT Manipulation)(Authorization Bypass)
      * @tags admin
      * @security BearerAuth
      * @return {array<User>} 200 - success response - application/json
