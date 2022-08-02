@@ -41,7 +41,7 @@ db.beer = require('../entities/beer.js')(sequelize,Sequelize);
 db.user = require('../entities/user.js')(sequelize,Sequelize);
 
 //add associations
-db.user.hasMany(db.beer, { as: "beers" });
-db.beer.belongsTo(db.user, { as: "users" });
+db.user.belongsToMany(db.beer, { through: "user_beers" });
+db.beer.belongsToMany(db.user, { through: "user_beers" });
 
 module.exports = db;

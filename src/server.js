@@ -64,7 +64,7 @@ app.use(cookieParser());
 router(app, db);
 
 //drop and resync with { force: true }
-db.sequelize.sync({alter:true}).then(() => {
+db.sequelize.sync({force:true}).then(() => {
     app.listen(PORT, () => {
       console.log('Express listening on port:', PORT);
     });
@@ -122,3 +122,11 @@ const njk = expressNunjucks(app, {
   watch: true,
   noCache: true
 });
+
+//expose css, js
+app.use(express.static('src/public'))
+
+//form handler
+const formidableMiddleware = require('express-formidable');
+
+app.use(formidableMiddleware());

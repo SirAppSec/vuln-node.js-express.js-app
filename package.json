@@ -16,6 +16,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-formidable": "^1.2.0",
     "express-handlebars": "^6.0.6",
     "express-jsdoc-swagger": "^1.8.0",
     "express-nunjucks": "^2.2.5",

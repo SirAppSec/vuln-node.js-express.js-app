@@ -20,3 +20,5 @@ npm install passport-jwt jsonwebtoken
 npm install otplib
 npm install node-serialize
 npm install axios
+npm install nunjucks
+npm install express-formidable

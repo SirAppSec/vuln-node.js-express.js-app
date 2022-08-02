@@ -29,7 +29,7 @@ module.exports = (app,db) => {
             //console.log(__dirname)
             //console.log(path.dirname(filePath))
 
-            (path.normalize(filePath))
+            //path.normalize(filePath)
             fs.readFile(path.join(__dirname, filePath),function(err,data){
                 if (err){
                     res.send("error")

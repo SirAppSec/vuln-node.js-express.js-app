@@ -110,21 +110,36 @@ module.exports = (app,db) => {
      * POST /v1/love/{beer_id}
      * @summary make a user love a beer(CSRF - Client Side Request Forgery)
      * @tags user
-     * @param {integer} beer_id.path.required - User
+     * @param {integer} beer_id.path.required - Beer Id
+     * @param {integer} id.query - User ID
      * @return {object} 200 - user response
      */
          app.post('/v1/love/:beer_id', (req,res) =>{
+            var current_user_id = 1;
+            if(!req.query.id){ // if not provided take from session
+                //if using jwt take from header:
+                if(!req.session.user.id){
+                    //if not jwt found
+                    if(!req.headers.authorization){
+                        res.json({error:"Couldn't find user token"})
+                    }
+                    current_user_id = jwt.decode(req.headers.authorization.split(' ')[1]).id
+
+                }
+                current_user_id = req.session.user.id
+            }
+            current_user_id = req.query.id
             
-            const current_user_id = 1;
             const beer_id = req.params.beer_id;
 
             db.beer.findOne({
                 where:{id:beer_id}
             }).then((beer) => {
                 const user = db.user.findOne(
-                    {where: id = current_user_id},
+                    {where: {id : current_user_id}},
                     {include: 'beers'}).then(current_user => {
-                        current_user.addBeer(beer)
+                        current_user.addBeer(beer, { through: 'user_beers' })
+                        
                         res.json(current_user);
                     })
             })

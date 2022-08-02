@@ -11,7 +11,7 @@ USE WITH CAUTION
 2. Use to Asses DAST/SAST tools for Node.js/Express.js applications
 3. Learn how not to write code
 
-# Advantage over NodeGoat
+# Advantages over NodeGoat
 While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have more vulnerabilities, multiple exploit chains and other weaknesses like low hanging fruits that are commonly found in production and enterprise level applications.
 
 # Vulnerabilities/Weaknesses
@@ -80,6 +80,10 @@ The docs clearly state the type of vulnerability/exploitation method
 As expected, only some methods require authentication/authorization, mostly for the sake of brevity, although the most common (IMO) auth vulnerabilities are present in the application.
 
 Access the api from http://localhost:5000/api-docs
+
+# License
+This repository is free to use as is without any limitations
+the lorem impsum theme is free from https://themewagon.com/themes/free-responsive-bootstrap-5-html5-admin-template-sneat/
 
 # Ref
 https://owasp.org/www-project-api-security/
