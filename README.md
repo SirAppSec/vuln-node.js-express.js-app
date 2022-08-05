@@ -1,4 +1,4 @@
-# A vulnerable Express.js + Node.js  API
+# A vulnerable Express.js + Node.js API and Frontend
 ### 
 
 # Warning
@@ -77,6 +77,9 @@ or nativaly
 # Docs
 The swagger docs clearly state the type of vulnerability/exploitation method
 As expected, only some methods require authentication/authorization, mostly for the sake of brevity, although the most common (IMO) auth vulnerabilities are present in the application.
+<img width="832" alt="image" src="https://user-images.githubusercontent.com/89794666/182978736-72471ed2-eaf6-41e2-8af4-9122ea21db4e.png">
+<img width="1024" alt="image" src="https://user-images.githubusercontent.com/89794666/182978784-677e3f7c-ba57-4683-b7cd-523f68a7ec28.png">
+
 
 Access the api from http://localhost:5000/api-docs
 
