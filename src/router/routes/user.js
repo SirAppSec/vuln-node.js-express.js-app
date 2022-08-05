@@ -15,7 +15,7 @@ module.exports = (app,db) => {
     app.get('/v1/admin/users/', (req,res) =>{
         //console.log("auth",req.headers.authorization)
         if (req.headers.authorization){ 
-        const user_object = jwt.decode(req.headers.authorization.split(' ')[1])
+        const user_object = jwt.verify(req.headers.authorization.split(' ')[1],"SuperSecret")
         db.user.findAll({include: "beers"})
             .then((users) => {
                 if (user_object.role =='admin'){
@@ -138,6 +138,7 @@ module.exports = (app,db) => {
                 const user = db.user.findOne(
                     {where: {id : current_user_id}},
                     {include: 'beers'}).then(current_user => {
+                        console.log(current_user)
                         current_user.addBeer(beer, { through: 'user_beers' })
                         
                         res.json(current_user);

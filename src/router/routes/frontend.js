@@ -1,5 +1,4 @@
 'user strcit';
-const pug = require('pug')
 module.exports = (app,db) => {
     //Front End entry page
     /**
@@ -24,6 +23,78 @@ module.exports = (app,db) => {
         //     data: scope,
         //     message: {message:req.query.message}
         // })
+        
+    });
+        //Front End register page
+    /**
+     * GET /register
+     * @summary Front End Entry Page 
+     * @description  
+     * @tags frontend
+     * @param {string} message.query - a message to present to the user
+     */
+ app.get('/register', (req,res) =>{
+
+    const nunjucks = require('nunjucks')
+    const message = req.query.message || "Please log in to continue"
+    rendered = nunjucks.renderString(message);
+    res.render('user-register.html',
+    {message : rendered});
+
+
+    // res.render('user',{
+    //     data: scope,
+    //     message: {message:req.query.message}
+    // })
+    
+});
+    //Front End route to Register
+    /**
+     * GET /register
+     * @summary 
+     * @description 
+     * @tags frontend
+     * @param {string} message.query - a message to present to the user
+     * @param {string} email.query.required - email body parameter
+     * @param {string} password.query.required - password body parameter
+     * @param {string} name.query.required - name body parameter
+     * @param {string} address.query.required - address body parameter
+     */
+     app.get('/registerform', (req,res) =>{
+        
+        const userEmail = req.query.email;
+        const userName = req.query.name;
+        const userRole = 'user'
+        const userPassword = req.query.password;
+        const userAddress = req.query.address
+        //validate email using regular expression
+        var emailExpression = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var regex = new RegExp(emailExpression)
+        console.log(userEmail)
+            console.log(emailExpression.test(userEmail))
+            if (!emailExpression.test(userEmail)){
+                res.redirect("/register?message=Email coulden't be validated, please try again.")
+                return
+            }
+            const md5 = require('md5')
+        const new_user = db.user.create(
+            {
+                name:userName,
+                email:userEmail,
+                role:userRole,
+                address:userAddress,
+                password:md5(userPassword)
+            }).then(new_user => {
+                res.redirect('/profile?id='+new_user.id);
+            }).catch(
+                (e) =>
+                {
+                    console.log(e)
+                    res.redirect('/?message=Error registering, please try again')
+
+                }
+            )
+       
         
     });
     //Front End route to log in
@@ -85,11 +156,13 @@ module.exports = (app,db) => {
                 res.redirect('/?message=User not found, please log in')
                 return;
             }
-            console.log(user)
-            //compare password with and without hash
+            const beers = db.beer.findAll().then(beers => {
+
+                console.log(user)
 
             res.render('profile.html',
-            {user : user});        })
+            {beers : beers, user:user[0]});        })
         
     });
+});
 };

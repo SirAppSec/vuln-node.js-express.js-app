@@ -64,7 +64,7 @@ app.use(cookieParser());
 router(app, db);
 
 //drop and resync with { force: true }
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync({alter:true}).then(() => {
     app.listen(PORT, () => {
       console.log('Express listening on port:', PORT);
     });

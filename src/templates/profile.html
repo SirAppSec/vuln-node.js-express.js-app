@@ -121,8 +121,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{ user.name }}</span>
+                            <small class="text-muted">{{ user.role }}</small>
                           </div>
                         </div>
                       </a>
@@ -133,7 +133,7 @@
                     <li>
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
+                        <span class="align-middle">Address: {{ user.address |safe }}</span>
                       </a>
                     </li>
                     <li>
@@ -166,7 +166,7 @@
               </ul>
             </div>
           </nav>
-
+          
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
@@ -177,50 +177,28 @@
               <!-- Layout Demo -->
 
               <!-- Examples -->
+              {% for beer_row in beers | batch(3, '&nbsp;') %}
               <div class="row mb-5">
+                {% for beer in beer_row %}
                 <div class="col-md-6 col-lg-4 mb-3">
+                  
                   <div class="card h-100">
-                    <img class="card-img-top" src="/v1/beer-pic/?picture=e0d5cb5aec3e97e5e48b03bd02aec8a8" alt="Card image cap" />
+                    <img class="card-img-top" src="/v1/beer-pic/?picture={{ beer.picture }}" alt="BEER image" />
                     <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
+                      <h5 class="card-title">{{ beer.name }}</h5>
                       <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                        {{ beer.name }} only Cost {{ beer.price }}{{ beer.currency }}
                       </p>
-                      <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
+                      <a href="javascript:void(0)" class="btn btn-outline-primary">I love this beer!</a>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                    </div>
-                    <img class="img-fluid" src="../assets/img/elements/13.jpg" alt="Card image cap" />
-                    <div class="card-body">
-                      <p class="card-text">Bear claw sesame snaps gummies chocolate.</p>
-                      <a href="javascript:void(0);" class="card-link">Card link</a>
-                      <a href="javascript:void(0);" class="card-link">Another link</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                      <img
-                        class="img-fluid d-flex mx-auto my-4"
-                        src="../assets/img/elements/4.jpg"
-                        alt="Card image cap"
-                      />
-                      <p class="card-text">Bear claw sesame snaps gummies chocolate.</p>
-                      <a href="javascript:void(0);" class="card-link">Card link</a>
-                      <a href="javascript:void(0);" class="card-link">Another link</a>
-                    </div>
-                  </div>
-                </div>
+                  
+                </div>  
+              {% endfor %}
+
+                
               </div>
+              {% endfor %}
               <!-- Examples -->
               <!--/ Layout Demo -->
             </div>

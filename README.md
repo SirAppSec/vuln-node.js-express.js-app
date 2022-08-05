@@ -54,7 +54,7 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * Uverified JWT manipulation
 * JWT Secret Key Brute Force
 * Template injection (SSTI)
-* Reflected XSS - Cross Site Scripting
+* Reflected+ Stored XSS - Cross Site Scripting
 
 ## Todo
 * Insecure TLS Validation 
@@ -63,7 +63,6 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * Prototype pollution
 * Log injection
 * Host header poisoning
-* XSS (Stored + DOM)
 * Encryption vulnerabilities
 * Trust boundary violations
 * Web Socket Security
@@ -76,7 +75,7 @@ or nativaly
 `npm run dev`
 
 # Docs
-The docs clearly state the type of vulnerability/exploitation method
+The swagger docs clearly state the type of vulnerability/exploitation method
 As expected, only some methods require authentication/authorization, mostly for the sake of brevity, although the most common (IMO) auth vulnerabilities are present in the application.
 
 Access the api from http://localhost:5000/api-docs
