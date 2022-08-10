@@ -49,7 +49,7 @@ module.exports = (app,db) => {
      * @return {array<User>} 200 - success response - application/json
      */
      app.get('/v1/user/:id', (req,res) =>{
-        db.user.findOne({where: { id : req.params.id}},{include: "beers"})
+        db.user.findOne({include: 'beers',where: { id : req.params.id}})
             .then(user => {
                 res.json(user);
             });
@@ -62,7 +62,7 @@ module.exports = (app,db) => {
      * @return {array<User>} 200 - success response - application/json
      */
          app.delete('/v1/user/:id', (req,res) =>{
-            db.user.destroy({where: { id : req.params.id}},{include: "beers"})
+            db.user.destroy({where: { id : req.params.id}})
                 .then(user => {
                     res.json({result: "deleted"});
                 })
@@ -138,10 +138,22 @@ module.exports = (app,db) => {
                 const user = db.user.findOne(
                     {where: {id : current_user_id}},
                     {include: 'beers'}).then(current_user => {
+                        if(current_user){
                         console.log(current_user)
-                        current_user.addBeer(beer, { through: 'user_beers' })
-                        
-                        res.json(current_user);
+                        console.log("check if user already hasBeer.")
+                        console.log(current_user.hasBeer(beer))
+                        current_user.hasBeer(beer).then(result => {
+                            console.log("result",result)
+                            if(!result){
+                                console.log("User doesn't have that specific beer")
+                                current_user.addBeer(beer, { through: 'user_beers' })
+                            }
+                            res.json(current_user);
+                        })
+                    }
+                    else{
+                    res.json({error:'user Id was not found'});
+                    }
                     })
             })
             .catch((e)=>{
