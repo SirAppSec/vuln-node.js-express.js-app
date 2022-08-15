@@ -1,7 +1,7 @@
 'user strcit';
 const os = require('os')
 const multer = require('multer')
-
+const Hoek = require('hoek')
 module.exports = (app,db) => {
     //https://github.com/BRIKEV/express-jsdoc-swagger
     //Get all the beers available for ordering
@@ -35,9 +35,10 @@ module.exports = (app,db) => {
 
     });
         /**
-     * Beer DTO for xml
+     * Beer Pic DTO
      * @typedef {object} BeerPicDTO
      * @property {string} file - image file - binary
+     * @property {string} description - file description (optional)
      */
     /**
      * POST /v1/admin/upload-pic/
@@ -52,15 +53,16 @@ module.exports = (app,db) => {
             res.sendStatus(500);
             return;
         }
-    
+
         try {
             const image = req.file;
+            
             res.json(image);              
 
             
         } catch (err) {
-            res.send(err.toString());
-            res.sendStatus(500);
+            res.json({error: err.toString()});
+            //res.sendStatus(500);
         }
     });
     /**

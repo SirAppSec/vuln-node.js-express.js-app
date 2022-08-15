@@ -138,8 +138,8 @@ module.exports = (app,db) => {
      * @description 
      * @tags frontend
      * @param {string} message.query - a message to present to the user
-     * @param {number} id.query - Id number of the profiel holder
-
+     * @param {number} id.query.required - Id number of the profile holder
+     * @param {string} profile_description
      */
      app.get('/profile', (req,res) =>{
 
@@ -165,4 +165,55 @@ module.exports = (app,db) => {
         
     });
 });
+
+//Front End route to profile
+    /**
+     * GET /beer
+     * @summary 
+     * @description 
+     * @tags frontend
+     * @param {number} id.query.required - Id number of the beer
+     * @param {number} user.query.required - User id number of user viewing the page
+     * @param {string} relationship - The message a user get when loving a beer (this is shown instead of the relationship)
+     */
+     app.get('/beer', (req,res) =>{
+
+        if(!req.query.id){
+            res.redirect("/?message=Could not Access beer please try a different beer")
+            return;
+        }
+        const beer = db.beer.findAll({include: 
+            'users',
+            where: {
+                id: req.query.id
+            }}).then(beer => {
+                if(beer.length == 0){
+                    res.redirect('/?message=Beer not found, please try again')
+                    return;
+                }
+                db.user.findOne({where:{id:req.query.user}}).then( user =>{
+                    if(!user){
+                        res.redirect('/?message=User not found, please try again')
+                        return;
+                    }
+                    user.hasBeer(beer).then(result => {
+                        let love_message
+                        if(result){ // user loves beer
+                            love_message = "You Love THIS BEER!!"
+                        }
+                        else
+                        {//user doesn't love the beer
+                            love_message = "..."
+                        }
+                        if(req.query.relationship){
+                            love_message = req.query.relationship
+                        }
+                        console.log(beer)
+                        res.render('beer.html',
+                        {beer : beer,message:love_message,user:user});
+                    
+                    });
+                });    
+            });
+    });
 };

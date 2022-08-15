@@ -113,7 +113,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="/profile?id={{ user.id }}">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
@@ -177,32 +177,24 @@
               <!-- Layout Demo -->
 
               <!-- Examples -->
-              {% for beer_row in beers | batch(3, '&nbsp;') %}
               <div class="row mb-5">
-                {% for beer in beer_row %}
                 <div class="col-md-6 col-lg-4 mb-3">
                   
                   <div class="card h-100">
-                    <a href="/beer?id={{beer.id}}&user={{user.id}}">
                     <img class="card-img-top" src="/v1/beer-pic/?picture={{ beer.picture }}" alt="BEER image" />
-                  </a>
                     <div class="card-body">
-                      <a href="/beer?id={{beer.id}}&user={{user.id}}">
                       <h5 class="card-title">{{ beer.name }}</h5>
-                    </a>
                       <p class="card-text">
                         {{ beer.name }} only Cost {{ beer.price }}{{ beer.currency }}
                       </p>
-                      <a href="/v1/love/{{beer.id}}?id={{user.id}}" class="btn btn-outline-primary">I love this beer!</a>
+                      <a href="javascript:void(0)" class="btn btn-outline-primary">{{message}}</a>
                     </div>
                   </div>
                   
                 </div>  
-              {% endfor %}
 
                 
               </div>
-              {% endfor %}
               <!-- Examples -->
               <!--/ Layout Demo -->
             </div>

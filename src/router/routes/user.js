@@ -106,16 +106,72 @@ module.exports = (app,db) => {
                 
 
     });
-        /**
-     * POST /v1/love/{beer_id}
-     * @summary make a user love a beer(CSRF - Client Side Request Forgery)
+         /**
+     * GET /v1/love/{beer_id}
+     * @summary make a user love a beer(CSRF - Client Side Request Forgery GET)
      * @tags user
      * @param {integer} beer_id.path.required - Beer Id
      * @param {integer} id.query - User ID
+     * @param {boolean} front.query - is it a frontend redirect ?
+     * @return {object} 200 - user response
+     */
+          app.get('/v1/love/:beer_id', (req,res) =>{
+            var current_user_id = req.query.id;
+            var front = true;
+            if (req.query.front){
+                front = req.query.front
+            }
+            if(!req.query.id){ // if not provided take from session
+                res.redirect("/?message=No Id")
+                return
+            }
+            
+            
+            const beer_id = req.params.beer_id;
+
+            db.beer.findOne({
+                where:{id:beer_id}
+            }).then((beer) => {
+                const user = db.user.findOne(
+                    {where: {id : current_user_id}},
+                    {include: 'beers'}).then(current_user => {
+                        if(current_user){
+                        current_user.hasBeer(beer).then(result => {
+                            if(!result){
+                                current_user.addBeer(beer, { through: 'user_beers' })
+                            }
+                            if(front){
+                                let love_beer_message = "You Just Loved this beer!!"
+                                res.redirect("/beer?user="+ current_user_id+"&id="+beer_id+"&message="+love_beer_message)
+                                return
+                            }
+                            res.json(current_user);
+                        })
+                    }
+                    else{
+                        res.json({error:'user Id was not found'});
+                    }
+                })
+            })
+            .catch((e)=>{
+                res.json(e)
+            })
+        });
+     /**
+     * POST /v1/love/{beer_id}
+     * @summary make a user love a beer(CSRF - Client Side Request Forgery POST)
+     * @tags user
+     * @param {integer} beer_id.path.required - Beer Id
+     * @param {integer} id.query - User ID
+     * @param {boolean} front.query - is it a frontend redirect ?
      * @return {object} 200 - user response
      */
          app.post('/v1/love/:beer_id', (req,res) =>{
             var current_user_id = 1;
+            var front = false;
+            if (req.query.front){
+                front = req.query.front
+            }
             if(!req.query.id){ // if not provided take from session
                 //if using jwt take from header:
                 if(!req.session.user.id){
@@ -124,7 +180,6 @@ module.exports = (app,db) => {
                         res.json({error:"Couldn't find user token"})
                     }
                     current_user_id = jwt.decode(req.headers.authorization.split(' ')[1]).id
-
                 }
                 current_user_id = req.session.user.id
             }
@@ -139,29 +194,25 @@ module.exports = (app,db) => {
                     {where: {id : current_user_id}},
                     {include: 'beers'}).then(current_user => {
                         if(current_user){
-                        console.log(current_user)
-                        console.log("check if user already hasBeer.")
-                        console.log(current_user.hasBeer(beer))
                         current_user.hasBeer(beer).then(result => {
-                            console.log("result",result)
                             if(!result){
-                                console.log("User doesn't have that specific beer")
                                 current_user.addBeer(beer, { through: 'user_beers' })
+                            }
+                            if(front){
+                                let love_beer_message = "You Loved this beer!!"
+                                res.redirect("/beer?user="+ current_user_id+"&id="+beer_id+"&message="+love_beer_message)
                             }
                             res.json(current_user);
                         })
                     }
                     else{
-                    res.json({error:'user Id was not found'});
+                        res.json({error:'user Id was not found'});
                     }
-                    })
+                })
             })
             .catch((e)=>{
                 res.json(e)
             })
-
-                    
-    
         });
 
    /**
