@@ -6,6 +6,14 @@ This application is not intended for production. It was heavily influenced by re
 
 USE WITH CAUTION
 
+## Quick Start with docker
+
+1. Install Docker
+2. Run docker `pull sirappsec/nodejs-vulnerable-app`
+Run `docker run --rm -p 5000:5000 sirappsec/nodejs-vulnerable-app`
+3. Browse to http://localhost:3000 (on macOS and Windows browse to http://192.168.99.100:3000 if you are using docker-machine instead of the native docker installation)
+
+
 # Purpose
 1. Test your skills, try to pentest and find the vulnerabilities
 2. Use to Asses DAST/SAST tools for Node.js/Express.js applications
@@ -83,8 +91,14 @@ As expected, only some methods require authentication/authorization, mostly for 
 
 Access the api from http://localhost:5000/api-docs
 
+# Easter eggs
+Try to find deleted passwords and files in the repository.
+Look for logic that breaks the application.
+
+
 # License
 This repository is free to use as is without any limitations
+
 the lorem impsum theme is free from https://themewagon.com/themes/free-responsive-bootstrap-5-html5-admin-template-sneat/
 
 # Ref

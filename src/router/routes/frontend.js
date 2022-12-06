@@ -156,9 +156,10 @@ module.exports = (app,db) => {
                 res.redirect('/?message=User not found, please log in')
                 return;
             }
-            const beers = db.beer.findAll().then(beers => {
+            let beers = db.beer.findAll().then(beers => {
 
                 console.log(user)
+                console.log(beers)
 
             res.render('profile.html',
             {beers : beers, user:user[0]});        })
@@ -209,10 +210,14 @@ module.exports = (app,db) => {
                             love_message = req.query.relationship
                         }
                         console.log(beer)
-                        res.render('beer.html',
-                        {beer : beer,message:love_message,user:user});
+
+            
+                        
                     
                     });
+                    res.render('beer.html',
+                        {beers : beer,message:love_message, user:user[0]});     
+                        
                 });    
             });
     });
