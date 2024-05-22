@@ -1,5 +1,5 @@
 #https://snyk.io/advisor/docker/node use the least vulnerable package
-FROM node:current-buster as builder
+FROM node:14-buster as builder
 RUN mkdir -p /build
 
 COPY ./package.json ./package-lock.json /build/
@@ -8,7 +8,7 @@ RUN npm ci
 
 COPY . /build
 
-FROM  node:18.6.0-slim 
+FROM  node:14-bullseye
 ENV user node
 USER $user
 
