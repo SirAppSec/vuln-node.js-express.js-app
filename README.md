@@ -13,7 +13,15 @@ USE WITH CAUTION
 Run `docker run --rm -p 5000:5000 sirappsec/nodejs-vulnerable-app`
 3. Browse to http://localhost:3000 (on macOS and Windows browse to http://192.168.99.100:3000 if you are using docker-machine instead of the native docker installation)
 
+## Quick Start with npm
+```bash
+git clone https://github.com/SirAppSec/vuln-node.js-express.js-app.git
+cd vuln-node.js-express.js-app
+npm install
+npm install nodemon
+npm run dev
 
+```
 # Purpose
 1. Test your skills, try to pentest and find the vulnerabilities
 2. Use to Asses DAST/SAST tools for Node.js/Express.js applications
@@ -28,7 +36,7 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * XXE - XML External Entity
 * RCE - Remote Code Execution
 * Session Fixation
-* Improper Password Strengh Controls
+* Improper Password Strength Controls
 * Hard Coded Secrets
 * Insufficient Randomness
 * Path Traversal
@@ -77,7 +85,7 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * NoSQL Injection
 * JSON Hijacking
 
-# How to Install
+# How to Start
 `docker-compose up`
 or nativaly
 `npm run dev`
@@ -91,9 +99,10 @@ As expected, only some methods require authentication/authorization, mostly for 
 
 Access the api from http://localhost:5000/api-docs
 
-# Easter eggs
+# Easter Eggs
 Try to find deleted passwords and files in the repository.
-Look for logic that breaks the application.
+
+You can also try to look for logic that breaks the application.
 
 
 # License
@@ -114,7 +123,7 @@ https://javascript.plainenglish.io/create-otp-based-user-sign-up-using-node-js-c
 https://jwt.io/
 https://www.bezkoder.com/node-js-jwt-authentication-mysql/
 https://stackoverflow.com/questions/5823722/how-to-serve-an-image-using-nodejs
-expressjs.com/en/4x/api.html
+https://expressjs.com/en/4x/api.html
 https://www.synack.com/blog/a-deep-dive-into-xxe-injection/
 https://www.exploit-db.com/docs/english/41397-injecting-sqlite-database-based-applications.pdf
 https://brikev.github.io/express-jsdoc-swagger-docs/#/README
