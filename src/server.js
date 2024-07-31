@@ -26,7 +26,7 @@ const PORT = config.PORT;
 //   });
 
 //OPTIONAL: Activate Logging
-//app.use(mrogan('combined'));
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 
 
@@ -94,7 +94,7 @@ const docOptions = {
   // Expose OpenAPI UI
   exposeSwaggerUI: true,
   // Expose Open API JSON Docs documentation in `apiDocsPath` path.
-  exposeApiDocs: false,
+  exposeApiDocs: true,
   // Open API JSON Docs endpoint.
   apiDocsPath: '/v1/api-docs',
   // Set non-required fields as nullable by default

@@ -5,8 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "test": "mocha",
-    "start": "DEBUG=* NODE_ENV=development node src/server.js --verbose > app.log 2> app_err.log"
-
+    "start": "DEBUG=* NODE_ENV=development node src/server.js --verbose > app.log 2> app_err.log",
     "dev": "NODE_ENV=development nodemon src/server.js",
     "lint": "eslint --fix ."
   },
