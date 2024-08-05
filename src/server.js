@@ -26,7 +26,7 @@ const PORT = config.PORT;
 //   });
 
 //OPTIONAL: Activate Logging
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 app.use(bodyParser.json());
 
 
