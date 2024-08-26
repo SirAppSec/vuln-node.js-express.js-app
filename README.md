@@ -110,7 +110,7 @@ This repository is free to use as is without any limitations
 
 the lorem impsum theme is free from https://themewagon.com/themes/free-responsive-bootstrap-5-html5-admin-template-sneat/
 
-# Ref
+# Refs
 https://owasp.org/www-project-api-security/
 https://www.shiftleft.io/blog/node.js-vulnerability-cheatsheet/
 https://snyk.io/blog/remediate-javascript-type-confusion-bypassed-input-validation/
@@ -129,3 +129,12 @@ https://www.exploit-db.com/docs/english/41397-injecting-sqlite-database-based-ap
 https://brikev.github.io/express-jsdoc-swagger-docs/#/README
 https://app-sec.gitbook.io/application-security/node.js-+-express.js-security-best-practices
 
+# Academic References
+This repository has been referenced in the academic research paper:
+
+Title: DeepCode AI Fix: Fixing Security Vulnerabilities with Large Language Models
+Authors: Berabi, et al.
+Published on: arXiv, February 2024
+https://arxiv.org/pdf/2402.13291v1
+
+The paper explores the use of Large Language Models to automatically detect and fix security vulnerabilities. Our project is cited as a case study in demonstrating real-world examples of vulnerable applications and their mitigations.
