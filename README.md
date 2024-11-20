@@ -9,8 +9,8 @@ USE WITH CAUTION
 ## Quick Start with docker
 
 1. Install Docker
-2. Run docker `pull sirappsec/nodejs-vulnerable-app`
-Run `docker run --rm -p 5000:5000 sirappsec/nodejs-vulnerable-app`
+2. Run `docker pull sirappsec/nodejs-vulnerable-app`
+Run `docker run --rm -p 3000:3000 sirappsec/nodejs-vulnerable-app`
 3. Browse to http://localhost:3000 (on macOS and Windows browse to http://192.168.99.100:3000 if you are using docker-machine instead of the native docker installation)
 
 ## Quick Start with npm
@@ -48,16 +48,16 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * Horizontal Privilege escalation
 * Insecure Object Deserialization
 * CSRF - Cross Site Request Forgery
-* SSRF - Server Side Request Forgery)
+* SSRF - Server Side Request Forgery
 * Click Jacking / Lack of Security Headers
 * Insecure Redirect
 * Vulnerable and Outdated Components (Probably, lol)
 * Forced Browsing
 * Password Hash With Insufficient Computational Effort
-* Excessive data exposure
+* Excessive Data Exposure
 * PII Leak - Personal Identifiable Information Exposure
 * BOLA - Broken Object Level Authorization
-* Broken user Authentication
+* Broken User Authentication
 * Mass Assignment
 * User Enumeration
 * Improper Asset management 
@@ -70,7 +70,7 @@ While NodeGoat cover mostly OWASP Top 10(inc SSRF and ReDos). This project have 
 * Uverified JWT manipulation
 * JWT Secret Key Brute Force
 * Template injection (SSTI)
-* Reflected+ Stored XSS - Cross Site Scripting
+* Reflected + Stored XSS - Cross Site Scripting
 
 ## Todo
 * Insecure TLS Validation 
