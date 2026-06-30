@@ -36,7 +36,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "pug": "^3.0.2",
-    "sequelize": "^6.21.3",
+    "sequelize": "^6.29.0",
     "sequelize-json-schema": "^2.1.1",
     "sqlite3": "^5.0.10",
     "swagger-jsdoc": "^6.2.1",
